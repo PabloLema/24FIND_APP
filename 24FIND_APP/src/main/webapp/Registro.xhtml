@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+      
+<ui:composition template="/resources/tables.xhtml">
+	<ui:define name="pageTitle">Usuarios Registrados</ui:define>
+	<ui:define name="pageHeader">Header</ui:define>
+	<ui:define name="contenido">
+	
+<h:head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>Consola Administracion</title>
+  <!-- Bootstrap core CSS-->
+  <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Custom fonts for this template-->
+  <link href="resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <!-- Custom styles for this template-->
+  <link href="resources/css/sb-admin.css" rel="stylesheet"/>
+  
+  <style type="text/css">
+	#map {
+	height: 400px;
+	width: 100%; 
+	}
+	
+	.center {
+    margin: auto;
+    width: 60%;
+    border: 3px solid #73AD21;
+    padding: 10px;
+	}
+	</style>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+	
+	<script>
+	function copiarLatitud() {
+		var copyText1 = document.getElementById("lat");
+		copyText1.select();
+		document.execCommand("Copy");
+		alert("Latitud Copiada: " + copyText1.value);
+		}
+	
+	function copiarLongitud() {
+		var copyText1 = document.getElementById("lng");
+		copyText1.select();
+		document.execCommand("Copy");
+		alert("Longitud Copiada:" + copyText1.value);
+		}
+	</script>
+	
+</h:head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="Registro.xhtml">24Find</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Lista De Usuarios">
+          <a class="nav-link" href="ListaClientes.xhtml">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Lista De Usuarios</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Agregar Usuario">
+          <a class="nav-link" href="Registro.xhtml">
+            <i class="fa fa-fw fa-user-o"></i>
+            <span class="nav-link-text">Agregar Usuario</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Editar Usuario">
+          <a class="nav-link" href="EditarCliente.xhtml">
+            <i class="fa fa-fw fa-pencil-square-o"></i>
+            <span class="nav-link-text">Editar Usuario</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Buscar Cliente..."/>
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Salir</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="Registro.xhtml">Registro De Datos</a>
+        </li>
+        <li class="breadcrumb-item active">Registro De Datos</li>
+      </ol>
+      
+ <h:form>
+	<!--  Registrar Usuario -->
+    <div class="card mb-3">
+		<div class="card-header">
+			<i class="fa fa-user-o"></i>
+			Registrar Cliente
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+			<div class="panel panel-primary">
+			<!-- Registro Cliente -->
+			
+			<!-- Cedula de Identidad -->
+			<div class="form-group">
+    				<label for="CI">Cedula</label>
+    				<h:inputText class="form-control" id="CI" value="#{personaController.persona.ci}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
+    				<h:message for="CI"/>
+  			</div>
+  	
+			<!-- Nombre Persona -->
+			<div class="form-group">
+				<label for="Nombre">Nombre</label>
+				<h:inputText class="form-control" id="Nombre" value="#{personaController.persona.nombre}" />
+				<h:message for="Nombre"/>
+			</div>
+		
+			<!-- Apellido Persona -->
+			<div class="form-group">
+				<label for="Nombre">Apellido</label>
+				<h:inputText class="form-control" id="Apellido" value="#{personaController.persona.apellido}" />
+				<h:message for="Apellido"/>
+			</div>
+		
+			<!-- Direccion Persona -->
+			<div class="form-group">
+				<label for="Nombre">Direccion</label>
+				<h:inputText class="form-control" id="Direccion" value="#{personaController.persona.direccion}" />
+				<h:message for="Direccion"/>
+			</div>
+		
+			<!-- Correo Persona -->
+			<div class="form-group">
+				<label for="Nombre">Correo</label>
+				<h:inputText class="form-control" id="Correo" value="#{personaController.persona.correo}" />
+				<h:message for="Correo"/>
+			</div>
+		
+			<!-- Combo para elegir tipo persona -->
+			<div class="form-group">
+				<label for="Nombre">Tipo Persona</label>
+				<h:selectOneMenu class="form-control" style="height:38px" id="tipoPersona" value = "#{personaController.persona.tipoPersona}"> 
+	            		<f:selectItem itemValue = "1" itemLabel = "--Seleccionar--" /> 
+	            		<f:selectItem itemValue = "Cliente" itemLabel = "Cliente" /> 
+	            		<f:selectItem itemValue = "Administrador" itemLabel = "Administrador" />   
+	         	</h:selectOneMenu>
+	         </div>
+	
+			</div>
+        		</div>
+      </div>		
+	</div>
+
+	<!-- Agregar Telefono -->	
+    <div class="card mb-3">
+		<div class="card-header">
+			<i class="fa fa-phone"></i>
+			Agregar Telefono
+		</div>
+		<div class="card-body" >
+			<div class="table-responsive">
+			
+			<!-- Registro Telefono -->
+ 			<h:dataTable class="table table-striped" value="#{personaController.persona.telefonos}" var="telefono" id="tblTelefonos" >
+ 	
+	 		<!-- Numero De Telefono -->
+			<h:column>
+				<f:facet name="header">Telefono</f:facet>
+				<h:inputText class="form-control" id="Telefono" value="#{telefono.telefono}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"/>
+			</h:column>
+		
+			<!-- Combo Para Elegir Tipo De Telefono -->
+			<h:column>
+				<f:facet name="header">Tipo Telefono</f:facet>
+				<h:selectOneMenu class="form-control" style="width:280px;height:38px" value = "#{telefono.tipo}" id="cbx"> 
+					<f:selectItem itemValue = "1" itemLabel = "--Seleccionar--" /> 
+					<f:selectItem itemValue = "Fijo" itemLabel = "Fijo" /> 
+					<f:selectItem itemValue = "Movil" itemLabel = "Movil" />   
+	         	</h:selectOneMenu>
+			</h:column>
+			</h:dataTable>	
+        		</div>
+      	</div>	
+      	
+      	<!-- Botones para agregar o eliminar telefono -->
+      	<div>
+		<center>
+ 		<h:commandButton class="btn btn-sm btn-info" style="width:60px;height:30px" action="#{personaController.addTelefono()}" value="+">
+			<f:ajax execute="@all" render="tblTelefonos" />
+		</h:commandButton>
+		&nbsp;				
+		<h:commandButton class="btn btn-sm btn-danger" style="width:60px;height:30px" action="#{personaController.addTelefono()}" value="-" />
+		</center>
+		<br />
+		</div>
+			
+</div>
+
+
+	
+<!-- Agregar Localidad -->
+    <div class="card mb-3">
+		<div class="card-header">
+			<i class="fa fa-map-marker"></i>
+			Agregar Localidad
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+			<!-- Registro De Locales -->
+	<h:dataTable class="table table-striped" value="#{personaController.persona.locales}" var="local" id="tblLocales">
+	
+		<!-- Nombre Local -->
+		<h:column>
+			<f:facet name="header">Nombre</f:facet>
+			<h:inputText class="form-control" id="Nombre" value="#{local.nombre}" />
+		</h:column>
+		
+		<!-- Descripcion Local -->
+		<h:column>
+			<f:facet name="header">Descripcion</f:facet>
+			<h:inputText class="form-control" id="Descripcion" value="#{local.descripcion}" />
+		</h:column>
+		
+		<!-- Direccion Local -->
+		<h:column>
+			<f:facet name="header">Direccion</f:facet>
+			<h:inputText class="form-control" id="Direccion" value="#{local.direccion}" />
+		</h:column>
+		
+		<!-- Horario Atencion Local -->
+  		<h:column>
+			<f:facet name="header">Horario de Atencion</f:facet>
+			<h:inputText class="form-control" id="horarios" value="#{local.horarios}" />
+		</h:column>
+		
+		<!-- Ubicacion Latitud -->
+		<h:column>
+			<f:facet name="header">Latitud</f:facet>
+			<h:inputText type="text" class="form-control" id="lati" value="#{local.lat}" />
+		</h:column>
+		
+		<!-- Ubiacion Longitud -->
+		<h:column>
+			<f:facet name="header">Longitud</f:facet>
+			<h:inputText type="text" class="form-control" id="long" value="#{local.lng}" />
+		</h:column>
+		
+	</h:dataTable>
+			
+        </div>
+      </div>	
+      
+      	<!-- Botones para agregar o eliminar Locales -->
+      	<div>
+		<center>
+ 		<h:commandButton class="btn btn-sm btn-info" style="width:60px;height:30px" action="#{personaController.addLocal()}" value="+">
+			<f:ajax execute="@all" render="tblLocales" />
+		</h:commandButton>
+		&nbsp;				
+		<h:commandButton class="btn btn-sm btn-danger" style="width:60px;height:30px" action="#{personaController.Guardar()}" value="-" />
+		</center>
+		<br />
+		</div>
+      	
+	</div>
+
+
+<!-- Buscar Puntos -->
+    <div class="card mb-3">
+		<div class="card-header">
+			<i class="fa fa-map-o"></i>
+			Escoger La Ubicacion
+		</div>
+	
+		<div class="card-body">
+			<!-- Latitud y Longitud para copiar -->
+			<div class="row">
+			  <div class="col-4">
+			  	<label>Latitud</label>
+			  	<input type="text" class="form-control" id="lat" placeholder="Latitud"/>
+			  	<!-- <button onclick="copiarLatitud()">Copiar Latitud
+			  	</button> -->
+			  </div>
+			  <div class="col-4">
+			  	<label>Longitud</label>
+			  	<input type="text" class="form-control" id="lng" placeholder="Longitud"/>
+			  </div>
+			</div>
+		 	
+		  	<br />
+		  	
+		  	<!-- Render Mapa -->
+			<div class="table-responsive">
+			<div id="map">
+			</div>
+			<script type="text/javascript" src="js/map.js"></script>
+			<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCk8SGgniKV9J5wLH0O8_ThAAiCHuUn6To'></script>
+        </div>
+      </div>	
+	</div>
+	
+	<center>
+	<!-- Boton Guardar Todos Los Datos -->
+	<h:commandButton class="btn btn-info" action="#{personaController.Guardar()}" value="Guardar" />
+	<!-- Boton Mostrar Lista De Clientes -->
+	<h:commandButton class="btn btn-danger" action="ListaClientes" value="Cancelar" immediate="true" />
+	</center>
+	
+	<br />
+
+</h:form>
+	
+    </div>
+    
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © 24Find 2017</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Salir de la pagina de administracion!</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Seleccionar LogIn para ingresar con otro usuario o salir de la pagina de administracion </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="resources/login.html">LogIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="resources/vendor/jquery/jquery.min.js"></script>
+    <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+  </div>
+</body>
+</ui:define>
+</ui:composition>
+</html>
